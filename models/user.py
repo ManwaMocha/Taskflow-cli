@@ -17,3 +17,11 @@ class User:
 
     def can_manage_users(self):
         return False
+
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "username": self.username,
+            "password_hash": self.__password_hash,
+            "role": self.role,
+        }
