@@ -25,3 +25,25 @@ class User:
             "password_hash": self.__password_hash,
             "role": self.role,
         }
+
+class Admin(User):
+    def __init__(self, user_id, username, password_hash):
+        super().__init__(
+            user_id,
+            username,
+            password_hash,
+            "admin",
+        )#calls the parent User
+
+    def can_manage_users(self):
+        return True #polymorphism
+
+
+class Member(User):
+    def __init__(self, user_id, username, password_hash):
+        super().__init__(
+            user_id,
+            username,
+            password_hash,
+            "member",
+        )
