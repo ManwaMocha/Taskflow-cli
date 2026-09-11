@@ -1,6 +1,3 @@
-"""User models demonstrate inheritance and encapsulation."""
-
-
 class User:
     VALID_ROLES = {"admin", "member"}
 
@@ -12,4 +9,11 @@ class User:
         self.username = username
         self.__password_hash = password_hash
         self.role = role
-        
+
+    @property #cant replace the password
+    def password_hash(self):
+        """Provide read-only access to the private password hash."""
+        return self.__password_hash
+
+    def can_manage_users(self):
+        return False
