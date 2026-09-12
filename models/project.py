@@ -51,6 +51,17 @@ class Project:
             "created_at": self.created_at,
         }
 
+    @classmethod
+    def from_dict(cls, data):
+        return cls(
+            data["id"],
+            data["name"],
+            data.get("description", ""),
+            data["created_by"],
+            data.get("member_ids", []),
+            data.get("status", "active"),
+            data.get("created_at")
+        )
 
 
 
