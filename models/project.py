@@ -31,6 +31,10 @@ class Project:
         if user_id not in self.member_ids:
             self.member_ids.append(user_id)
 
+    def remove_member(self, user_id):
+        if user_id in self.member_ids:
+            self.member_ids.remove(user_id)
+
 
 
 
