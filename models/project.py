@@ -35,6 +35,12 @@ class Project:
         if user_id in self.member_ids:
             self.member_ids.remove(user_id)
 
+    def update_status(self, status):
+        if status not in self.VALID_STATUSES:
+            raise ValueError("Status must be active, completed or archived")
+        self.status = status
+
+
 
 
 
