@@ -18,6 +18,10 @@ class ProjectService:
     def list_all(self):
         return [Project.from_dict(item) for item in self.project_storage.load()]
 
+    def get(self, project_id):
+        record = self.project_storage.find_by_id(project_id)
+        return Project.from_dict(record) if record else None
+
 
 
 
