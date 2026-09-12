@@ -15,6 +15,10 @@ class ProjectService:
         self.project_storage.add(project.to_dict())
         return project
 
+    def list_all(self):
+        return [Project.from_dict(item) for item in self.project_storage.load()]
+
+
 
 
 
