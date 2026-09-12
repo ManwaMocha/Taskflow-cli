@@ -7,7 +7,13 @@ class ProjectService:
     def create(self, name, description, created_by):
         project = Project(
             self.project_storage.next_id(),
+            name,
+            description,
+            created_by,
+            member_ids=[created_by]
         )
+        self.project_storage.add(project.to_dict())
+        return project
 
 
 
