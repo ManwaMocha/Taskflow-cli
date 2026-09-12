@@ -33,6 +33,9 @@ class ProjectService:
 
         return project
 
+    def delete(self, project_id):
+        return self.project_storage.delete(project_id)
+
 
 
 
