@@ -22,6 +22,17 @@ class ProjectService:
         record = self.project_storage.find_by_id(project_id)
         return Project.from_dict(record) if record else None
 
+    def add_member(self, project_id, user_id):
+        project = self.get(project_id)
+
+        if not project:
+            raise ValueError("Project not found")
+
+        project.add_member(user_id)
+        self.project_storage.update(project_id, project.to_dict())
+
+        return project
+
 
 
 
