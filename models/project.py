@@ -26,7 +26,11 @@ class Project:
         self.member_ids = member_ids or []
         self.status = status
         self.created_at = created_at or datetime.now(timezone.utc).isoformat()
-        
+
+    def add_member(self, user_id):
+        if user_id not in self.member_ids:
+            self.member_ids.append(user_id)
+
 
 
 
