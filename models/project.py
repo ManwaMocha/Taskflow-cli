@@ -40,6 +40,17 @@ class Project:
             raise ValueError("Status must be active, completed or archived")
         self.status = status
 
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "name": self.name,
+            "description": self.description,
+            "created_by": self.created_by,
+            "member_ids": self.member_ids,
+            "status": self.status,
+            "created_at": self.created_at,
+        }
+
 
 
 
