@@ -30,3 +30,17 @@ def role_required(required_role):
         return wrapper
 
     return decorator
+#records that an application ction completed successfully
+def log_action(function):
+    @wraps(function)
+    def wrapper(*args, **kwargs):
+        result = function(*args, **kwargs)
+
+        logging.info(
+            "Action completed: %s",
+            function.__name__,
+        )
+
+        return result
+
+    return wrapper
