@@ -2,8 +2,8 @@
 
 
 VALID_STATUSES = {
-    "todo",
-    "in_progress",
+    "pending",
+    "in progress",
     "completed",
 }
 
@@ -18,7 +18,7 @@ def validate_status(status):
     """Validate a task status."""
     if status not in VALID_STATUSES:
         raise ValueError(
-            "Invalid status. Choose todo, in_progress, or completed."
+            "Invalid status. Choose pending, in progress, or completed."
         )
 
     return True
