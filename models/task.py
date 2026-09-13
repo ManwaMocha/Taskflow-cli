@@ -29,6 +29,14 @@ class Task:
         if priority not in self.VALID_PRIORITIES:
             raise ValueError("Priority must be low, medium, or high.")
 
+        if due_date is not None:
+            try:
+                datetime.strptime(due_date, "%Y-%m-%d")
+            except ValueError:
+                raise ValueError(
+                    "Due date must be in YYYY-MM-DD format."
+                )
+
         self.id = task_id
         self.title = title.strip()
         self.description = description.strip()
