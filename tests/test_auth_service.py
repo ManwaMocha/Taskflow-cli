@@ -56,3 +56,25 @@ def test_password_is_hashed():
         "secret1".encode(),
         saved_hash.encode(),
     )
+def test_login_with_correct_password():
+    storage = FakeStorage()
+    auth_service = AuthService(storage)
+
+    auth_service.register("leader", "secret1")
+
+    logged_in_user = auth_service.login("leader", "secret1")
+
+    assert logged_in_user is not None
+    assert logged_in_user.username == "leader"
+    assert logged_in_user.role == "admin"
+
+
+def test_login_with_wrong_password():
+    storage = FakeStorage()
+    auth_service = AuthService(storage)
+
+    auth_service.register("leader", "secret1")
+
+    logged_in_user = auth_service.login("leader", "wrongpassword")
+
+    assert logged_in_user is None
