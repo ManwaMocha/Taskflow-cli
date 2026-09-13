@@ -38,7 +38,9 @@ class Task:
         self.status = status
         self.priority = priority
         self.due_date = due_date
-        self.created_at = created_at or datetime.now(timezone.utc).isoformat()
+        self.created_at = (
+            created_at or datetime.now(timezone.utc).isoformat()
+        )
 
     def assign_to(self, user_id):
         self.assigned_to = user_id
