@@ -1,4 +1,5 @@
 import bcrypt
+import pytest
 
 from services.auth_service import AuthService
 
@@ -78,3 +79,12 @@ def test_login_with_wrong_password():
     logged_in_user = auth_service.login("leader", "wrongpassword")
 
     assert logged_in_user is None
+
+def test_duplicate_username_is_rejected():
+    storage = FakeStorage()
+    auth_service = AuthService(storage)
+
+    auth_service.register("leader", "secret1")
+
+    with pytest.raises(ValueError):
+        auth_service.register("LEADER", "secret2")
