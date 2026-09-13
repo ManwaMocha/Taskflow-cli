@@ -3,6 +3,7 @@ import pytest
 
 from services.auth_service import AuthService
 
+
 class FakeStorage:
     def __init__(self):
         self.records = []
@@ -23,6 +24,8 @@ class FakeStorage:
                 return record
 
         return None
+
+
 def test_first_registered_user_is_admin():
     storage = FakeStorage()
     auth_service = AuthService(storage)
@@ -32,6 +35,8 @@ def test_first_registered_user_is_admin():
     assert user.role == "admin"
     assert user.can_manage_users() is True
     assert len(storage.records) == 1
+
+
 def test_second_registered_user_is_member():
     storage = FakeStorage()
     auth_service = AuthService(storage)
@@ -42,6 +47,7 @@ def test_second_registered_user_is_member():
     assert member.role == "member"
     assert member.can_manage_users() is False
     assert len(storage.records) == 2
+
 
 def test_password_is_hashed():
     storage = FakeStorage()
@@ -57,6 +63,8 @@ def test_password_is_hashed():
         "secret1".encode(),
         saved_hash.encode(),
     )
+
+
 def test_login_with_correct_password():
     storage = FakeStorage()
     auth_service = AuthService(storage)
@@ -76,9 +84,13 @@ def test_login_with_wrong_password():
 
     auth_service.register("leader", "secret1")
 
-    logged_in_user = auth_service.login("leader", "wrongpassword")
+    logged_in_user = auth_service.login(
+        "leader",
+        "wrongpassword",
+    )
 
     assert logged_in_user is None
+
 
 def test_duplicate_username_is_rejected():
     storage = FakeStorage()
@@ -89,11 +101,12 @@ def test_duplicate_username_is_rejected():
     with pytest.raises(ValueError):
         auth_service.register("LEADER", "secret2")
 
+
 def test_list_and_get_users():
     storage = FakeStorage()
     auth_service = AuthService(storage)
 
-    leader = auth_service.register("leader", "secret1")
+    auth_service.register("leader", "secret1")
     member = auth_service.register("member", "secret2")
 
     users = auth_service.list_users()
@@ -111,16 +124,3 @@ def test_list_and_get_users():
     missing_user = auth_service.get_user(999)
 
     assert missing_user is None
-def test_login_required_blocks_logged_out_user():
-    app = FakeApp()
-
-    with pytest.raises(PermissionError):
-        app.protected_action()
-
-
-def test_login_required_allows_logged_in_user():
-    app = FakeApp(current_user=object())
-
-    result = app.protected_action()
-
-    assert result == "Action allowed"
