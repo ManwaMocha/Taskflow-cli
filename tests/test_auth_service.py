@@ -111,3 +111,16 @@ def test_list_and_get_users():
     missing_user = auth_service.get_user(999)
 
     assert missing_user is None
+def test_login_required_blocks_logged_out_user():
+    app = FakeApp()
+
+    with pytest.raises(PermissionError):
+        app.protected_action()
+
+
+def test_login_required_allows_logged_in_user():
+    app = FakeApp(current_user=object())
+
+    result = app.protected_action()
+
+    assert result == "Action allowed"
