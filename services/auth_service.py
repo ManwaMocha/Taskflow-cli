@@ -60,3 +60,16 @@ class AuthService:
             return None
 
         return User.from_dict(record)#converts the dictionary into an Admin or member object
+    def list_users(self):
+        return [
+            User.from_dict(record)
+            for record in self.user_storage.load()
+        ]
+
+    def get_user(self, user_id):
+        record = self.user_storage.find_by_id(user_id)
+
+        if record:
+            return User.from_dict(record)
+
+        return None
