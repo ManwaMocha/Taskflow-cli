@@ -88,3 +88,26 @@ def test_duplicate_username_is_rejected():
 
     with pytest.raises(ValueError):
         auth_service.register("LEADER", "secret2")
+
+def test_list_and_get_users():
+    storage = FakeStorage()
+    auth_service = AuthService(storage)
+
+    leader = auth_service.register("leader", "secret1")
+    member = auth_service.register("member", "secret2")
+
+    users = auth_service.list_users()
+
+    assert len(users) == 2
+    assert users[0].username == "leader"
+    assert users[1].username == "member"
+
+    found_user = auth_service.get_user(member.id)
+
+    assert found_user is not None
+    assert found_user.id == member.id
+    assert found_user.username == "member"
+
+    missing_user = auth_service.get_user(999)
+
+    assert missing_user is None
