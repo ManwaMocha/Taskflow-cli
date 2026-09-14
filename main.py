@@ -29,3 +29,9 @@ def create_app():
         task_service,
         comment_service,
     )
+if __name__ == "__main__":
+    try:
+        app = create_app()
+        app.run()
+    except RuntimeError as error:
+        print(f"Could not start TaskFlow: {error}")
