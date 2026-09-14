@@ -28,13 +28,16 @@ class User:
     #change the dictionary to object when fetching data
     @classmethod
     def from_dict(cls, data):
+        if data["role"] not in cls.VALID_ROLES:
+            raise ValueError("Role must be admin or member.")
+
         model = Admin if data["role"] == "admin" else Member
 
         return model(
             data["id"],
             data["username"],
             data["password_hash"],
-        )
+        )   
 
 class Admin(User):
     def __init__(self, user_id, username, password_hash):
