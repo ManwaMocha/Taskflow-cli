@@ -1,4 +1,5 @@
 """Interactive command-line interface."""
+from utils.decorators import role_required, log_action
 
 from getpass import getpass
 class CLIApp:
@@ -26,6 +27,8 @@ class CLIApp:
                 print(f"Logged in as: {self.current_user.username}")
                 print(f"Role: {self.current_user.role}")
                 print("3. Logout")
+                if self.current_user.role == "admin":
+                    print("4. Create project")
 
             print("0. Exit")
             choice = input("Choose an option: ").strip()
@@ -45,6 +48,8 @@ class CLIApp:
                 else:
                     if choice == "3":
                         self.logout_user()
+                    elif choice == "4":
+                        self.create_project()
                     else:
                         print("Invalid option.")
 
@@ -77,3 +82,16 @@ class CLIApp:
     def logout_user(self):
         self.current_user = None
         print("You have logged out.")
+    @role_required("admin")
+    @log_action
+    def create_project(self):
+        name = input("Project name: ")
+        description = input("Description: ")
+
+        project = self.project_service.create(
+            name,
+            description,
+            self.current_user.id,
+        )
+
+        print(f"Project created: {project.name} (ID: {project.id})")
