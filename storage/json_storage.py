@@ -17,17 +17,20 @@ class JsonStorage:
             self.save([])
 
     def load(self):
-        # Read and return records from the JSON file.
         try:
             with self.file_path.open("r", encoding="utf-8") as file:
                 data = json.load(file)
+        except (json.JSONDecodeError, OSError) as error:
+            raise RuntimeError(
+                f"Could not load {self.file_path.name}: {error}"
+            ) from error
 
-                # Make sure the stored data is a list.
-                return data if isinstance(data, list) else []
+        if not isinstance(data, list):
+            raise RuntimeError(
+                f"{self.file_path.name} must contain a JSON list."
+            )
 
-        # Return an empty list if the file is invalid or unavailable.
-        except (json.JSONDecodeError, OSError):
-            return []
+        return data
 
     def save(self, records):
         # Save the records to the JSON file.
