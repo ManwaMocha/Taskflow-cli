@@ -256,3 +256,9 @@ review, testing and completion.
 - Replace JSON with a transactional database.
 - Add password reset and stronger account-management controls.
 - Add task search, reports and reminders.
+
+## Project Management
+
+We used Trello to assign responsibilities and track progress.
+
+[View our Trello board](https://trello.com/b/PVdFgDFs)
